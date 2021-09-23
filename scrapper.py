@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 import requests
 from flask import Flask, request, render_template, redirect
 
-#adding comment for testing
 
 app = Flask(__name__)
 
