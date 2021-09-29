@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 # Stack overflow url to all questions.
 URL = 'https://stackoverflow.com/questions'
-WEBDRIVER = '/Users/treyschneider/Desktop/chromedriver'
+WEBDRIVER = 'driver/chromedriver'
 OPTIONS = Options()
 OPTIONS.add_argument('--headless')
 DRIVER = Chrome(WEBDRIVER, options=OPTIONS)
@@ -33,6 +33,7 @@ def get_q(pages, tag):
     while_counter = 1
     while while_counter < int(pages):
         DRIVER.get(URL)
+        print(DRIVER)
         questions = DRIVER.find_elements_by_class_name("question-summary")
         for question in questions:
             try:
