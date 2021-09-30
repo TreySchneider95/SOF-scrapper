@@ -35,10 +35,10 @@ flake8:
 pytest:
   stage: Test
   script:
-  - python -m pytest || true
+  - python -m pytest
 
 coverage:
   stage: Test
   allow_failure: true
   script:
-  - python -m pytest --cov-report term-missing --cov=project || true
+  - python -m pytest --cov-report term-missing --cov=project

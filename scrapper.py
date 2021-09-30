@@ -50,7 +50,8 @@ def get_q(pages, tag):
         while_counter += 1
         URL = DRIVER.find_element_by_link_text('Next').get_attribute('href')
     return display_dict
-get_q(PAGES, TAG)
+if __name__ == '__main__':
+    get_q(PAGES, TAG)
 #close connections
 DRIVER.close()
 conn.close()

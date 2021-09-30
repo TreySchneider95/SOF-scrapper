@@ -12,12 +12,12 @@ def test_class_status_exists(selenium_driver):
     assert len(questions)>0
 
 def test_class_tags_exists(selenium_driver):
-    status = selenium_driver.find_element_by_class_name("unanswered")
-    assert status != None
+    status = selenium_driver.find_elements_by_class_name("unanswered")
+    assert len(status)>0
 
 def test_class_question_exists(selenium_driver):
-    tags = selenium_driver.find_element_by_class_name('post-tag')
-    assert True
+    tags = selenium_driver.find_elements_by_class_name('post-tag')
+    assert len(tags)>0
 
 def test_csv_file_path_exists():
     path_to_file = "unanswered_list.csv"
@@ -25,5 +25,5 @@ def test_csv_file_path_exists():
     assert path.is_file()
 
 def test_next_page_works(selenium_driver):
-    next = selenium_driver.find_element_by_link_text('Next')
-    assert next != None
+    next = selenium_driver.find_elements_by_link_text('Next')
+    assert len(next)>0
