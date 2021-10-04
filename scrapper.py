@@ -1,10 +1,12 @@
+"""Summary
+Automatic Stack overflow scrapper for automation
+"""
+
 import csv
-from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver import Chrome
-from selenium.webdriver.chrome.options import Options
-import requests
 import sqlite3
+import requests
+from bs4 import BeautifulSoup
+
 
 #sqlite connect
 conn = sqlite3.connect('SOF.db')
@@ -16,7 +18,7 @@ URL = 'https://stackoverflow.com/questions'
 
 
 #CSV writer
-csv_file = open('unanswered_list.csv', 'w')
+csv_file = open('unanswered_list.csv', 'w', encoding='UTF8')
 fieldnames = ['question', 'link']
 dictwriter = csv.DictWriter(csv_file, fieldnames=fieldnames)
 dictwriter.writeheader()
@@ -27,24 +29,29 @@ PAGES = 10
 TAG = 'python'
 
 def find_questions(pages, tag):
+    """
+    Function to find the question based on the tags and number of pages
+    """
     html = requests.get(URL)
-    bs = BeautifulSoup(html.text, 'html.parser')
+    bs_page = BeautifulSoup(html.text, 'html.parser')
     display_dict = {}
     while_counter = 1
     while while_counter < int(pages):
-        question_summary = bs.find_all('div', {'class': 'question-summary'})
+        question_summary = bs_page.find_all('div', {'class': 'question-summary'})
         for questions in question_summary:
             status = questions.find('div', {'class': 'status unanswered'})
             tags = questions.find('a', {'class': 'post-tag'},text = tag)
             if status and tags:
-                question = questions.find('a', {'class': 'question-hyperlink'}).text.replace("'", '"')
+                question = questions.find('a', {'class': 'question-hyperlink'})
+                question = question.text
+                question = question.replace("'", '"')
                 link = URL + questions.find('a', {'class': 'question-hyperlink'})['href'][10:]
                 cur.execute("INSERT INTO python VALUES ('%s','%s')" % (question, link))
                 conn.commit()
         while_counter += 1
         next_link = f'?tab=newest&page={while_counter}'
         html = requests.get(URL + next_link)
-        bs = BeautifulSoup(html.text, 'html.parser')
+        bs_page = BeautifulSoup(html.text, 'html.parser')
     return display_dict
 
 
@@ -53,3 +60,4 @@ if __name__ == '__main__':
 
 #close connections
 conn.close()
+csv_file.close()
