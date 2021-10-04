@@ -34,6 +34,7 @@ flake8:
   - flake8 --max-line-length=150 --ignore=E266 *.py project/*.py project/*/routes.py project/*/forms.py || true
   rules:
     - if: $CI_PIPELINE_SOURCE = "push"
+    when: never
 
 pytest:
   stage: Test
@@ -41,6 +42,7 @@ pytest:
   - python -m pytest || true
   rules:
     - if: $CI_PIPELINE_SOURCE = "push"
+    when: never
 
 coverage:
   stage: Test
@@ -49,6 +51,7 @@ coverage:
   - python -m pytest --cov-report term-missing --cov=project || true
   rules:
     - if: $CI_PIPELINE_SOURCE = "push"
+    when: never
 
 
 automation:
