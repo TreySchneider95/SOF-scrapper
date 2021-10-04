@@ -31,29 +31,30 @@ dictwriter.writeheader()
 PAGES = 10
 TAG = 'python'
 
-#Selenium scrapper
-def get_q(pages, tag):
-    URL = 'https://stackoverflow.com/questions'
+def find_questions(pages, tag):
+    html = requests.get(URL)
+    bs = BeautifulSoup(html.text, 'html.parser')
     display_dict = {}
     while_counter = 1
     while while_counter < int(pages):
-        DRIVER.get(URL)
-        questions = DRIVER.find_elements_by_class_name("question-summary")
-        for question in questions:
-            status = question.find_elements_by_class_name("unanswered")
-            tags = question.find_element_by_link_text(f'{tag}')
-            if len(status) > 0 and len(tags) > 0:
-                q_text = question.find_element_by_class_name('question-hyperlink').text
-                link = question.find_element_by_class_name('question-hyperlink').get_attribute('href')
-                cur.execute("INSERT INTO python VALUES ('%s','%s')" % (q_text, link))
+        question_summary = bs.find_all('div', {'class': 'question-summary'})
+        for questions in question_summary:
+            status = questions.find('div', {'class': 'status unanswered'})
+            tags = questions.find('a', {'class': 'post-tag'},text = tag)
+            if status and tags:
+                question = questions.find('a', {'class': 'question-hyperlink'}).text.replace("'", '"')
+                link = URL + questions.find('a', {'class': 'question-hyperlink'})['href'][10:]
+                cur.execute("INSERT INTO python VALUES ('%s','%s')" % (question, link))
                 conn.commit()
         while_counter += 1
-        URL = DRIVER.find_element_by_link_text('Next').get_attribute('href')
+        next_link = f'?tab=newest&page={while_counter}'
+        html = requests.get(URL + next_link)
+        bs = BeautifulSoup(html.text, 'html.parser')
     return display_dict
 
 
 if __name__ == '__main__':
-    get_q(PAGES, TAG)
+    find_questions(PAGES, TAG)
 
 #close connections
 DRIVER.close()

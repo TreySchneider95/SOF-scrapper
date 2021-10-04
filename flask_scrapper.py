@@ -54,26 +54,6 @@ def get_q(pages, tag):
     return display_dict
 
 
-def find_questions(pages, tag):
-    html = requests.get(URL)
-    bs = BeautifulSoup(html.text, 'html.parser')
-    display_dict = {}
-    while_counter = 1
-    while while_counter < int(pages):
-        question_summary = bs.find_all('div', {'class': 'question-summary'})
-        for questions in question_summary:
-            status = questions.find('div', {'class': 'status unanswered'})
-            tags = questions.find('a', {'class': 'post-tag'},text = tag)
-            if status and tags:
-                question = questions.find('a', {'class': 'question-hyperlink'}).text
-                link = URL + questions.find('a', {'class': 'question-hyperlink'})['href'][10:]
-                dictwriter.writerow({'question': question, 'link': link})
-                display_dict[question] = link
-        while_counter += 1
-        next_link = f'?tab=newest&page={while_counter}'
-        html = requests.get(URL + next_link)
-        bs = BeautifulSoup(html.text, 'html.parser')
-    return display_dict
 
 
 @app.route('/', methods = ['GET', 'POST'])

@@ -26,6 +26,7 @@ before_script:
 stages:
   - Static Analysis
   - Test
+  - Schedule
 
 flake8:
   stage: Static Analysis
@@ -44,8 +45,9 @@ coverage:
   - python -m pytest --cov-report term-missing --cov=project || true
 
 
-  job:on-schedule:
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-  script:
-    - python3 scrapper.py
+  automation:
+    stage: Schedule
+    rules:
+      - if: $CI_PIPELINE_SOURCE == "schedule"
+    script:
+      - python3 scrapper.py
