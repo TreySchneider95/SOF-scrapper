@@ -9,7 +9,8 @@ from bs4 import BeautifulSoup
 
 
 #sqlite connect
-conn = sqlite3.connect('SOF.db')
+DATABASE_FILE = 'SOF.db'
+conn = sqlite3.connect(DATABASE_FILE)
 cur = conn.cursor()
 
 

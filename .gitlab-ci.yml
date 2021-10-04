@@ -44,15 +44,6 @@ pytest:
     - if: '$CI_PIPELINE_SOURCE == "push"'
 
 
-coverage:
-  stage: Test
-  allow_failure: true
-  script:
-  - python -m pytest --cov-report term-missing --cov=project || true
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "push"'
-
-
 
 automation:
   stage: Schedule

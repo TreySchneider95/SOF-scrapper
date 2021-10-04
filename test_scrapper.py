@@ -4,6 +4,8 @@ from pathlib import Path
 import selenium
 from scrapper import *
 
+PATH_TO_FILE = "unanswered_list.csv"
+
 def test_driver_not_none(bs_driver):
     assert bs_driver != None
 
@@ -20,8 +22,7 @@ def test_class_question_exists(bs_driver):
     assert len(tags)>0
 
 def test_csv_file_path_exists():
-    path_to_file = "unanswered_list.csv"
-    path = Path(path_to_file)
+    path = Path(PATH_TO_FILE)
     assert path.is_file()
 
 def test_next_page_works(bs_driver):
