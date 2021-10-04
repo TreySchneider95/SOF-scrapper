@@ -32,26 +32,23 @@ flake8:
   stage: Static Analysis
   script:
   - flake8 --max-line-length=150 --ignore=E266 *.py project/*.py project/*/routes.py project/*/forms.py || true
-  except:
-    - variables:
-      - $CI_PIPELINE_SOURCE =~ "schedule"
+  rules:
+    - if: $CI_PIPELINE_SOURCE = "push"
 
 pytest:
   stage: Test
   script:
   - python -m pytest || true
-  except:
-    - variables:
-      - $CI_PIPELINE_SOURCE =~ "schedule"
+  rules:
+    - if: $CI_PIPELINE_SOURCE = "push"
 
 coverage:
   stage: Test
   allow_failure: true
   script:
   - python -m pytest --cov-report term-missing --cov=project || true
-  except:
-    - variables:
-      - $CI_PIPELINE_SOURCE =~ "schedule"
+  rules:
+    - if: $CI_PIPELINE_SOURCE = "push"
 
 
 automation:
