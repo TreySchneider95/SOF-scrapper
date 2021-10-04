@@ -1,15 +1,18 @@
 import csv
 from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver import Chrome
+from selenium.webdriver.chrome.options import Options
 import requests
-from flask import Flask, request, render_template, redirect
+import sqlite3
 
-
-app = Flask(__name__)
+#sqlite connect
+conn = sqlite3.connect('SOF.db')
+cur = conn.cursor()
 
 
 # Stack overflow url to all questions.
 URL = 'https://stackoverflow.com/questions'
-
 
 
 #CSV writer
@@ -17,6 +20,11 @@ csv_file = open('unanswered_list.csv', 'w')
 fieldnames = ['question', 'link']
 dictwriter = csv.DictWriter(csv_file, fieldnames=fieldnames)
 dictwriter.writeheader()
+
+
+#Variables to search
+PAGES = 10
+TAG = 'python'
 
 def find_questions(pages, tag):
     html = requests.get(URL)
@@ -29,10 +37,10 @@ def find_questions(pages, tag):
             status = questions.find('div', {'class': 'status unanswered'})
             tags = questions.find('a', {'class': 'post-tag'},text = tag)
             if status and tags:
-                question = questions.find('a', {'class': 'question-hyperlink'}).text
+                question = questions.find('a', {'class': 'question-hyperlink'}).text.replace("'", '"')
                 link = URL + questions.find('a', {'class': 'question-hyperlink'})['href'][10:]
-                dictwriter.writerow({'question': question, 'link': link})
-                display_dict[question] = link
+                cur.execute("INSERT INTO python VALUES ('%s','%s')" % (question, link))
+                conn.commit()
         while_counter += 1
         next_link = f'?tab=newest&page={while_counter}'
         html = requests.get(URL + next_link)
@@ -40,16 +48,8 @@ def find_questions(pages, tag):
     return display_dict
 
 
-@app.route('/', methods = ['GET', 'POST'])
-def home():
-    return render_template('index.html')
-
-@app.route('/q-list', methods = ['GET', 'POST'])
-def q_list():
-    pages = request.form['pages']
-    tag = request.form['tag']
-    question_dict = find_questions(pages, tag)
-    return render_template('q_list.html', question_dict = question_dict)
-
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    find_questions(PAGES, TAG)
+
+#close connections
+conn.close()
