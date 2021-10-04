@@ -13,11 +13,6 @@ cur = conn.cursor()
 
 # Stack overflow url to all questions.
 URL = 'https://stackoverflow.com/questions'
-WEBDRIVER = 'driver/chromedriver'
-OPTIONS = Options()
-OPTIONS.add_argument('--headless')
-DRIVER = Chrome(WEBDRIVER, options=OPTIONS)
-
 
 
 #CSV writer
@@ -57,5 +52,4 @@ if __name__ == '__main__':
     find_questions(PAGES, TAG)
 
 #close connections
-DRIVER.close()
 conn.close()
