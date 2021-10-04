@@ -30,25 +30,19 @@ stages:
 
 flake8:
   stage: Static Analysis
-  rules:
-    - if: $CI_PIPELINE_SOURCE = "push"
   script:
-    - flake8 --max-line-length=150 --ignore=E266 *.py project/*.py project/*/routes.py project/*/forms.py || true
+  - flake8 --max-line-length=150 --ignore=E266 *.py project/*.py project/*/routes.py project/*/forms.py || true
 
 pytest:
   stage: Test
-  rules:
-    - if: $CI_PIPELINE_SOURCE = "push"
   script:
-    - python -m pytest || true
+  - python -m pytest || true
 
 coverage:
   stage: Test
   allow_failure: true
-  rules:
-    - if: $CI_PIPELINE_SOURCE = "push"
   script:
-    - python -m pytest --cov-report term-missing --cov=project || true
+  - python -m pytest --cov-report term-missing --cov=project || true
 
 
 automation:
