@@ -42,3 +42,10 @@ coverage:
   allow_failure: true
   script:
   - python -m pytest --cov-report term-missing --cov=project || true
+
+
+  job:on-schedule:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+  script:
+    - python3 scrapper.py
