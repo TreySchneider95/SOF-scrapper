@@ -8,7 +8,7 @@ import requests
 
 
 app = Flask(__name__)
-
+HOST = '0.0.0.0'
 
 # Stack overflow url to all questions.
 URL = 'https://stackoverflow.com/questions'
@@ -116,4 +116,4 @@ def get_questions_date(date):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host=HOST)

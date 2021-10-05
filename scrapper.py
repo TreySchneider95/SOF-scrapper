@@ -48,8 +48,7 @@ def find_questions(pages, tag):
                 question = question.text
                 question = question.replace("'", '"')
                 link = URL + questions.find('a', {'class': 'question-hyperlink'})['href'][10:]
-                date = datetime.date.today()
-                cur.execute("INSERT INTO python VALUES ('%s','%s', '%s')" % (question, link, date))
+                cur.execute("INSERT INTO python (question, link) VALUES ('%s','%s')" % (question, link))
                 conn.commit()
         while_counter += 1
         next_link = f'?tab=newest&page={while_counter}'
