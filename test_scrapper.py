@@ -3,6 +3,7 @@ from pathlib import Path
 
 import selenium
 from scrapper import *
+from flask_scrapper import *
 
 PATH_TO_FILE = "unanswered_list.csv"
 
