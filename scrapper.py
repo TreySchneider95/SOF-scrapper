@@ -6,6 +6,7 @@ import csv
 import sqlite3
 import requests
 from bs4 import BeautifulSoup
+import datetime
 
 
 #sqlite connect
@@ -47,7 +48,7 @@ def find_questions(pages, tag):
                 question = question.text
                 question = question.replace("'", '"')
                 link = URL + questions.find('a', {'class': 'question-hyperlink'})['href'][10:]
-                cur.execute("INSERT INTO python VALUES ('%s','%s')" % (question, link))
+                cur.execute("INSERT INTO python (question, link) VALUES ('%s','%s')" % (question, link))
                 conn.commit()
         while_counter += 1
         next_link = f'?tab=newest&page={while_counter}'
