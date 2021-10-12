@@ -27,6 +27,7 @@ stages:
   - Static Analysis
   - Test
   - Schedule
+  - Deploy
 
 Pylint:
   stage: Static Analysis
@@ -52,3 +53,11 @@ automation:
   script:
     - python3 scrapper.py
 
+
+heroku:
+ stage: Deploy
+ only:
+ - main
+ script:
+ - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/sof-scrapper.git
+ - git push -f heroku master
