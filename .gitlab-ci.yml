@@ -60,4 +60,4 @@ heroku:
  - main
  script:
  - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/sof-scrapper.git
- - git push -f heroku main
+ - git push -f heroku HEAD:main
