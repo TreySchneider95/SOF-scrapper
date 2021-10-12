@@ -64,7 +64,7 @@ automation:
 #  - git push heroku main
 
 
- staging:
+heroku:
   stage: Deploy
   only:
   - main
