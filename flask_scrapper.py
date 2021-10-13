@@ -1,5 +1,4 @@
 from datetime import datetime
-import datetime
 import csv
 import sqlite3
 from flask import Flask, request, render_template, jsonify
@@ -111,7 +110,7 @@ def get_questions_date(date):
     Part of the API function that allows you to search DB with by date
     """
     date_object = datetime.strptime(date, '%m-%d-%Y').date()
-    data = cur.execute("SELECT QUESTION FROM python WHERE date = date('%s')" % (date_object,)).fetchall()
+    data = cur.execute("SELECT QUESTION FROM python WHERE date_scrapped = date('%s')" % (date_object,)).fetchall()
     return jsonify(data)
 
 
