@@ -6,6 +6,9 @@ from flask import Flask, request, render_template, jsonify, current_app, abort
 from bs4 import BeautifulSoup
 import requests
 from functools import wraps
+import os
+
+os.getenv()
 
 
 app = Flask(__name__)
@@ -136,4 +139,4 @@ def status_page():
 
 
 if __name__ == '__main__':
-    app.run(debug=True,host=HOST)
+    app.run(debug=os.getenv('DEBUG'),host=HOST)
