@@ -113,6 +113,12 @@ def get_questions_date(date):
     data = cur.execute("SELECT QUESTION FROM python WHERE date_scrapped = date('%s')" % (date_object,)).fetchall()
     return jsonify(data)
 
+@app.get('/status')
+def status_page():
+    return '''
+    This is a test
+    '''
+
 
 if __name__ == '__main__':
     app.run(debug=True, host=HOST)

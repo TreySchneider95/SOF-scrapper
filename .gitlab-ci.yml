@@ -61,7 +61,7 @@ dev-heroku:
   - apt-get update -qy
   - apt-get install -y ruby-dev
   - gem install dpl
-  - dpl --provider=heroku --app=$HEROKU_DEV_APP --api-key=$HEROKU_API_KEY
+  - dpl --provider=heroku --app=sof-dev --api-key=$HEROKU_API_KEY
 
 
 heroku:
@@ -72,4 +72,4 @@ heroku:
   - apt-get update -qy
   - apt-get install -y ruby-dev
   - gem install dpl
-  - dpl --provider=heroku --app=$HEROKU_DEV_APP --api-key=$HEROKU_API_KEY
+  - dpl --provider=heroku --app=sof-scrapper --api-key=$HEROKU_API_KEY
