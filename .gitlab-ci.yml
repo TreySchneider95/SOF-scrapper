@@ -53,8 +53,7 @@ automation:
   script:
     - python3 scrapper.py
 
-
-heroku:
+dev-heroku:
   stage: Deploy
   only:
   - dev
