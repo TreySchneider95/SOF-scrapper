@@ -8,7 +8,6 @@ import requests
 from functools import wraps
 import os
 
-os.getenv()
 
 
 app = Flask(__name__)
@@ -139,4 +138,4 @@ def status_page():
 
 
 if __name__ == '__main__':
-    app.run(debug=os.getenv('DEBUG'),host=HOST)
+    app.run(host=HOST)

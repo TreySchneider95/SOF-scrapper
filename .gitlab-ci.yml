@@ -23,6 +23,8 @@ before_script:
   - python3 -m venv venv
   - source venv/bin/activate
   - pip install -r requirements.txt
+  - source .${CI_COMMIT_REF_NAME}.env
+
 
 stages:
   - Static Analysis
@@ -63,7 +65,6 @@ dev-heroku:
   - apt-get install -y ruby-dev
   - gem install dpl
   - dpl --provider=heroku --app=sof-dev --api-key=$HEROKU_API_KEY
-  - export FLASK_ENV=development
 
 
 heroku:
@@ -75,4 +76,3 @@ heroku:
   - apt-get install -y ruby-dev
   - gem install dpl
   - dpl --provider=heroku --app=sof-scrapper --api-key=$HEROKU_API_KEY
-  - export FLASK_ENV=production
