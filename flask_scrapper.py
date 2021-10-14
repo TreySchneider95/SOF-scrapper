@@ -1,5 +1,6 @@
 from datetime import datetime
 import csv
+from logging import debug
 import sqlite3
 from flask import Flask, request, render_template, jsonify, current_app, abort
 from bs4 import BeautifulSoup
@@ -135,4 +136,4 @@ def status_page():
 
 
 if __name__ == '__main__':
-    app.run(host=HOST)
+    app.run(debug=True,host=HOST)
