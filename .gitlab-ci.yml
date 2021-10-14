@@ -54,14 +54,15 @@ automation:
     - python3 scrapper.py
 
 
-# heroku:
-#  stage: Deploy
-#  only:
-#  - main
-#  script:
-#  - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/sof-scrapper.git
-#  - echo git remote -v
-#  - git push heroku main
+heroku:
+ stage: Deploy
+ only:
+ - dev
+ script:
+  - apt-get update -qy
+  - apt-get install -y ruby-dev
+  - gem install dpl
+  - dpl --provider=heroku --app=$HEROKU_DEV_APP --api-key=$HEROKU_API_KEY
 
 
 heroku:
@@ -72,4 +73,4 @@ heroku:
   - apt-get update -qy
   - apt-get install -y ruby-dev
   - gem install dpl
-  - dpl --provider=heroku --app=sof-scrapper --api-key=$HEROKU_API_KEY
+  - dpl --provider=heroku --app=$HEROKU_DEV_APP --api-key=$HEROKU_API_KEY
