@@ -1,9 +1,10 @@
 from datetime import datetime
 import csv
 import sqlite3
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, current_app, abort
 from bs4 import BeautifulSoup
 import requests
+from functools import wraps
 
 
 app = Flask(__name__)
@@ -23,6 +24,18 @@ dictwriter.writeheader()
 DATABASE_FILE = 'SOF.db'
 conn = sqlite3.connect(DATABASE_FILE, check_same_thread=False)
 cur = conn.cursor()
+
+def debug_only(f):
+    """
+    debug wrapper that will only make route only work if debug is true
+    """
+    @wraps(f)
+    def wrapped(**kwargs):
+        if not current_app.debug:
+            abort(404)
+        return f(**kwargs)
+    return wrapped
+
 
 
 def find_questions(pages, tag):
@@ -114,6 +127,7 @@ def get_questions_date(date):
     return jsonify(data)
 
 @app.get('/status')
+@debug_only
 def status_page():
     return '''
     This is a test
