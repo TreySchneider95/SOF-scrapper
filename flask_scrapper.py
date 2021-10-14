@@ -138,4 +138,4 @@ def status_page():
 
 
 if __name__ == '__main__':
-    app.run(debug=os.environ['DEBUG'],host=HOST)
+    app.run(debug=True,host=HOST)
