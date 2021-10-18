@@ -7,10 +7,15 @@ from bs4 import BeautifulSoup
 import requests
 from functools import wraps
 import os
+from flask_cache import Cache
 
-
+config = {
+    "CACHE_TYPE": "SimpleCache",
+    "CACHE_DEFAULT_TIMEOUT": 300
+}
 
 app = Flask(__name__)
+cache = Cache(app)
 HOST = '0.0.0.0'
 
 # Stack overflow url to all questions.
@@ -70,6 +75,7 @@ def find_questions(pages, tag):
 
 #User frontend
 @app.route('/', methods = ['GET', 'POST'])
+@cache.cached(timeout=50)
 def home():
     """
     Initial route that takes you home.
