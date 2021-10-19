@@ -98,6 +98,7 @@ def q_list():
 
 #User frontend with API json return
 @app.get('/search')
+@cache.cached(timeout=50)
 def search_bar():
     """
     Part of the API functions that allows you to search the database
