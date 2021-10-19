@@ -1,3 +1,4 @@
+from werkzeug.utils import cached_property
 from datetime import datetime
 import csv
 from logging import debug
@@ -7,7 +8,7 @@ from bs4 import BeautifulSoup
 import requests
 from functools import wraps
 import os
-from flask_cache import Cache
+from flask_caching import Cache
 
 config = {
     "CACHE_TYPE": "SimpleCache",
